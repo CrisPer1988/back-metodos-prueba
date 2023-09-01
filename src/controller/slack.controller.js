@@ -48,8 +48,8 @@ exports.createChannel = async (req, res) => {
 }
 
 exports.addMemberToChannel = async (req, res) => {
-  const { channelId, userId, token } = req.body;
-  const slack = new WebClient(token);
+  const { channelId, userId } = req.body;
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
 
   try {
     const response = await slack.conversations.invite({
@@ -60,6 +60,7 @@ exports.addMemberToChannel = async (req, res) => {
     if (response.ok) {
       return res.status(200).json({
         message: 'Member added to the channel successfully.',
+        
       });
     } else {
       return res.status(500).json({
@@ -76,11 +77,11 @@ exports.addMemberToChannel = async (req, res) => {
 
 /////////////////////////userID
 exports.getUserId = async (req, res) => {
-  const slack = new WebClient("xoxb-5836473505844-5819589606151-2wDZZ0HBjTrHx1BS9WrzBlgv");
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
 
   try {
     const response = await slack.users.lookupByEmail({
-      email: "norberto.cp@hotmail.com", // Puedes usar el nombre de usuario en lugar del correo electrónico si lo prefieres
+      email: "patoymano21@gmail.com", // Puedes usar el nombre de usuario en lugar del correo electrónico si lo prefieres
     });
 
     if (response.ok) {
@@ -116,7 +117,7 @@ exports.getUserId = async (req, res) => {
 /////////////////////////lista de canales
 
 exports.listChannel = async (req, res) => {
-  const slack = new WebClient("xoxb-5836473505844-5819589606151-2wDZZ0HBjTrHx1BS9WrzBlgv");
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
   try {
     const response = await slack.conversations.list();
     if (response.ok) {
