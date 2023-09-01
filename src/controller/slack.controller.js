@@ -1,6 +1,5 @@
 const WebClient = require('@slack/web-api').WebClient;
 
-// Reemplaza 'YOUR_TOKEN' con tu token de acceso de Slack
 // var slack = new WebClient('xoxb-5836473505844-5819589606151-Ydap5jNyKzzadqS0rhrLGz7L');
 
 exports.sendMessage = async (req, res) => {
