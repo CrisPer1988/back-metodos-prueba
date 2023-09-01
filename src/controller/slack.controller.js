@@ -22,12 +22,12 @@ exports.sendMessage = async (req, res) => {
 }
 
 exports.createChannel = async (req, res) => {
-  const {channel, token} = req.body
+  const {channelName, token} = req.body
   const slack = new WebClient(token)
 
   try {
     const response = await slack.conversations.create({
-      name:channel
+      name:channelName
     });
 
     if (response.ok) {
