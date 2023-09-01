@@ -27,24 +27,24 @@ exports.createChannel = async (req, res) => {
   const slack = new WebClient(token)
 
   try {
-    const response = await axios.post(
-      'https://slack.com/api/conversations.create',
-      {
-        channel
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${slack}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = await slack.conversations.create({
+      name:channel
+    });
 
-    return res.status(200).json({
+    if (response.ok) {
+      return res.status(200).json({
       message: 'Channel Created'
     })
-      } catch (error) {
-        error
-    }
+    } else {
+        return res.status(500).json({
+          message: 'Failed to create'
+        })
+      } 
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json ({
+          message:'Error'
+        })
+      }
 }
 
