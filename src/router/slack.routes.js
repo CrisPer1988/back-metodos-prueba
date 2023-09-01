@@ -9,6 +9,10 @@ router.post("/send-message", slackController.sendMessage)
 
 router.post('/create', slackController.createChannel)
 
+router.post('/create', slackController.createChannel)
+
+router.post('/add-member', slackController.addMemberToChannel)
+
 router.get("/list-channel", slackController.listChannel)
 
 router.get("/myId", slackController.getUserId)
