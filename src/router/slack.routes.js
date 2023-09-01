@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/send-message", slackController.sendMessage)
 
-router.post('/create', slackController.createChannel)
+router.post("/create-thread", slackController.createThread)
 
 router.post('/create', slackController.createChannel)
 

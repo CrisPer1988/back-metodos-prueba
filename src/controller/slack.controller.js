@@ -1,7 +1,7 @@
 const WebClient = require('@slack/web-api').WebClient;
 
 // var slack = new WebClient('xoxb-5836473505844-5819589606151-Ydap5jNyKzzadqS0rhrLGz7L');
-// const slackToken = 'xoxp-5834083025858-5857782466688-5846955373009-67991aa1af18634cc5288f285de05ba2';
+// const slackToken = 'xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f';
 
 exports.sendMessage = async (req, res) => {
     const {channel, text, token} = req.body
@@ -49,7 +49,7 @@ exports.createChannel = async (req, res) => {
 
 exports.getTimestamp = async (req, res) => {
   const {channelId, token} = req.body
-  const slack = new WebClient('xoxp-5834083025858-5857782466688-5822903092167-efbdf6e40198ef6c162f7abaa8601add')
+  const slack = new WebClient('xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f')
 
   try {
     const response = await slack.conversations.history({
@@ -78,7 +78,7 @@ exports.getTimestamp = async (req, res) => {
 
 exports.createThread = async (req, res) => {
   const {channelId, messageTimestamp, threadText, token} = req.body
-  const slack = new WebClient('xoxp-5834083025858-5857782466688-5822903092167-efbdf6e40198ef6c162f7abaa8601add')
+  const slack = new WebClient('xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f')
 
   try {
     const response = await slack.chat.postMessage({
@@ -105,7 +105,7 @@ exports.createThread = async (req, res) => {
 
 exports.addMemberToChannel = async (req, res) => {
   const { channelId, userId } = req.body;
-  const slack = new WebClient("xoxp-5836473505844-5827388761782-5819589589447-8bdf092993de821101a65452393d00a2");
+  const slack = new WebClient("xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f");
 
   try {
     const response = await slack.conversations.invite({
@@ -133,7 +133,7 @@ exports.addMemberToChannel = async (req, res) => {
 
 /////////////////////////userID
 exports.getUserId = async (req, res) => {
-  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
+  const slack = new WebClient("xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f");
 
   try {
     const response = await slack.users.lookupByEmail({
@@ -156,7 +156,7 @@ exports.getUserId = async (req, res) => {
 /////////////////////////lista de canales
 
 exports.listChannel = async (req, res) => {
-  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
+  const slack = new WebClient("xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f");
   try {
     const response = await slack.conversations.list();
     if (response.ok) {

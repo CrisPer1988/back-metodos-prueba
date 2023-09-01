@@ -26,6 +26,137 @@ exports.createBoard = async (req, res) => {
     }
 }
 
+exports.getBoardId = async (req, res) => {
+  const { boardName } = req.body; // Nombre del tablero desde el cuerpo de la solicitud
+
+  try {
+      const response = await axios.get(`https://api.trello.com/1/members/me/boards?key=${API_KEY}&token=${TOKEN}`);
+      
+      if (response.status === 200) {
+          const boards = response.data;
+          const board = boards.find(b => b.name === boardName);
+
+          if (board) {
+              return res.status(200).json({
+                  message: 'ID del tablero encontrado',
+                  boardId: board.id,
+              });
+          } else {
+              return res.status(404).json({
+                  message: 'Tablero no encontrado',
+              });
+          }
+      } 
+  } catch (error) {
+      return res.status(500).json({
+          message: 'Error interno del servidor al obtener el tablero',
+          error: error.message,
+      });
+  }
+};
+
+exports.createList = async (req, res) => {
+  const { listName, boardId } = req.body; // Nombre de la lista y ID del tablero desde el cuerpo de la solicitud
+
+  try {
+      const listData = {
+          name: listName,
+          idBoard: boardId
+      };
+
+      const response = await axios.post(`https://api.trello.com/1/lists?key=${API_KEY}&token=${TOKEN}`, listData);
+
+      if (response.status === 200) {
+          return res.status(200).json({
+              message: 'Lista creada exitosamente',
+              listId: response.data.id,
+          });
+      } else {
+          console.error('Error al crear la lista:', response.data);
+          return res.status(response.status).json({
+              message: 'Error al crear la lista',
+              error: response.data,
+          });
+      }
+  } catch (error) {
+      return res.status(500).json({
+          message: 'Error interno del servidor al crear la lista',
+          error: error.message,
+      });
+  }
+};
+
+exports.getListId = async (req, res) => {
+  const { listName, boardId } = req.body; // Nombre de la lista y ID del tablero desde el cuerpo de la solicitud
+
+  try {
+      const listsResponse = await axios.get(`https://api.trello.com/1/boards/${boardId}/lists?key=${API_KEY}&token=${TOKEN}`);
+
+      if (listsResponse.status === 200) {
+          const lists = listsResponse.data;
+          const targetList = lists.find(list => list.name === listName);
+
+          if (targetList) {
+              return res.status(200).json({
+                  message: 'ID de la lista encontrado',
+                  listId: targetList.id,
+              });
+          } else {
+              return res.status(404).json({
+                  message: `Lista "${listName}" no encontrada en el tablero`,
+              });
+          }
+      } 
+  } catch (error) {
+      return res.status(500).json({
+          message: 'Error interno del servidor al obtener el ID de la lista',
+          error: error.message,
+      });
+  }
+};
+
+exports.createCard = async (req, res) => {
+  const { cardName, listName, boardId } = req.body; // Nombre de la tarjeta, nombre de la lista y ID del tablero desde el cuerpo de la solicitud
+
+  try {
+      const listsResponse = await axios.get(`https://api.trello.com/1/boards/${boardId}/lists?key=${API_KEY}&token=${TOKEN}`);
+
+      if (listsResponse.status === 200) {
+          const lists = listsResponse.data;
+          const targetList = lists.find(list => list.name === listName);
+
+          if (targetList) {
+              // Si se encuentra la lista, ahora puedes crear la tarjeta en esa lista
+              const cardData = {
+                  name: cardName,
+                  idList: targetList.id
+              };
+
+              const cardResponse = await axios.post(`https://api.trello.com/1/cards?key=${API_KEY}&token=${TOKEN}`, cardData);
+
+              if (cardResponse.status === 200) {
+                  return res.status(200).json({
+                      message: 'Tarjeta creada exitosamente',
+                      cardId: cardResponse.data.id,
+                  });
+              } else {
+                  console.error('Error al crear la tarjeta:', cardResponse.data);
+                  return res.status(cardResponse.status).json({
+                      message: 'Error al crear la tarjeta',
+                      error: cardResponse.data,
+                  });
+              }
+          }
+      }
+  } catch (error) {
+      return res.status(500).json({
+          message: 'Error interno del servidor al crear la tarjeta',
+          error: error.message,
+      });
+  }
+};
+
+
 exports.getWorkspaceId = async (req, res) => {
     const { organizationName } = req.body; // Nombre de la organización desde el cuerpo de la solicitud
 
@@ -61,7 +192,6 @@ exports.getWorkspaceId = async (req, res) => {
     }
 };
 
-
 exports.addMembersToBoard = async () => {
       // Reemplaza con tu clave de API y token de acceso de Trello
       const API_KEY = '90edc6b8bb989b2ba9bf107d1f258d7f';
@@ -90,41 +220,14 @@ exports.addMembersToBoard = async () => {
 
 }
 
-/////////////////////////////////////////////
-// const boardName = 'prueba';
+exports.inviteUserToTrelloBoard = async (req, res) => {
+  const boardId = "64f23d0fc723ade046e65845";
+  const email = "norberto.cp@hotmail.com"
+      const response = await axios.post(`http://api.trello.com/1/search/members?query=${email}&type=members&key=${API_KEY}&token=${TOKEN}`, {
+        email,
+        type: 'normal', 
+        boardId: boardId
+      });
 
-// // URL de la API de Trello para buscar tableros por nombre
-// const searchBoardsUrl = `https://api.trello.com/1/search?query=${encodeURIComponent(boardName)}&key=${API_KEY}&token=${TOKEN}`;
-
-// // Realiza la solicitud GET para buscar tableros por nombre
-// axios.get(searchBoardsUrl)
-//   .then((response) => {
-//     if (response.status === 200) {
-//       // Obtén el ID del primer tablero encontrado (puedes ajustar este código para manejar múltiples resultados)
-//       const firstBoard = response.data.boards[0];
-//       if (firstBoard) {
-//         const boardId = firstBoard.id;
-//         console.log('ID del tablero encontrado:', boardId);
-
-//         // Ahora que tienes el ID del tablero, puedes obtener información adicional
-//         const getBoardInfoUrl = `https://api.trello.com/1/boards/${boardId}?key=${API_KEY}&token=${TOKEN}`;
-//         return axios.get(getBoardInfoUrl);
-//       } else {
-//         console.error('No se encontraron tableros con ese nombre.');
-//       }
-//     } else {
-//       console.error('Error al buscar tableros:', response.statusText);
-//     }
-//   })
-//   .then((infoResponse) => {
-//     if (infoResponse && infoResponse.status === 200) {
-//       console.log('Información del tablero:', infoResponse.data);
-//     } else {
-//       console.error('Error al obtener información del tablero:', infoResponse.statusText);
-//     }
-//   })
-//   .catch((error) => {
-//     console.error('Error:', error.message);
-//   });
-
-  
+      return res.status(200).json({message: "ok", boardId})
+}
