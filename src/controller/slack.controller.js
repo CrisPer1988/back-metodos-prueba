@@ -104,8 +104,8 @@ exports.createThread = async (req, res) => {
 }
 
 exports.addMemberToChannel = async (req, res) => {
-  const { channelId, userId, token } = req.body;
-  const slack = new WebClient(token);
+  const { channelId, userId } = req.body;
+  const slack = new WebClient("xoxp-5836473505844-5827388761782-5819589589447-8bdf092993de821101a65452393d00a2");
 
   try {
     const response = await slack.conversations.invite({
@@ -116,6 +116,7 @@ exports.addMemberToChannel = async (req, res) => {
     if (response.ok) {
       return res.status(200).json({
         message: 'Member added to the channel successfully.',
+        
       });
     } else {
       return res.status(500).json({
@@ -132,11 +133,11 @@ exports.addMemberToChannel = async (req, res) => {
 
 /////////////////////////userID
 exports.getUserId = async (req, res) => {
-  const slack = new WebClient("xoxb-5836473505844-5819589606151-2wDZZ0HBjTrHx1BS9WrzBlgv");
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
 
   try {
     const response = await slack.users.lookupByEmail({
-      email: "norberto.cp@hotmail.com", // Puedes usar el nombre de usuario en lugar del correo electrónico si lo prefieres
+      email: "patoymano21@gmail.com", 
     });
 
     if (response.ok) {
@@ -151,28 +152,11 @@ exports.getUserId = async (req, res) => {
     console.error('Error:', error);
   }
 }
-// async function getUserIdByUsername(token, username) {
-//   const slack = new WebClient(token);
-
-//   try {
-//     const response = await slack.users.lookupByEmail({
-//       email: username, // Puedes usar el nombre de usuario en lugar del correo electrónico si lo prefieres
-//     });
-
-//     if (response.ok) {
-//       console.log('User ID:', response.user.id);
-//     } else {
-//       console.error('Error al buscar el usuario:', response.error);
-//     }
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// }
 
 /////////////////////////lista de canales
 
 exports.listChannel = async (req, res) => {
-  const slack = new WebClient("xoxp-5834083025858-5857782466688-5822903092167-efbdf6e40198ef6c162f7abaa8601add");
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-Xlt8wSI3lHztFypBBFmU2J0R");
   try {
     const response = await slack.conversations.list();
     if (response.ok) {
