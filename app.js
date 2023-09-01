@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/methods", slackRouter)
-app.use("/api/trello", trelloRouter)
+app.use("/api/methods", trelloRouter)
 
 
 module.exports = app
