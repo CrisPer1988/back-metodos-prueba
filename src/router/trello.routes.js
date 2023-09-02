@@ -6,19 +6,19 @@ const router = express.Router()
 
 router.post("/create-board", trelloController.createBoard)
 
-router.post("/add-member", trelloController.addMembersToBoard)
+// router.post("/add-member", trelloController.addMembersToBoard)
 
 router.post("/create-list", trelloController.createList)
 
 router.post("/create-card", trelloController.createCard)
 
-router.post("/add-member-trello", trelloController.inviteUserToTrelloBoard)
+router.post("/add-member-trello", trelloController.addUserBoard)
 
-router.get("/workspaceId", trelloController.getWorkspaceId)
+// router.get("/idid", trelloController.getWorkspaceId)
 
-router.get("/boardId", trelloController.getBoardId)
+// router.get("/boardId", trelloController.getBoardId)
 
-router.get("/listId", trelloController.getListId)
+// router.get("/listId", trelloController.getListId)
 
 
 module.exports = router

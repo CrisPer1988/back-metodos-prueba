@@ -13,7 +13,7 @@ exports.sendMessage = async (req, res) => {
               });
               return res.status(200).json({
                 message: text,
-                result
+                // result
               })
             } catch (error) {
               console.error('Error al enviar el mensaje:', error);
@@ -49,7 +49,7 @@ exports.createChannel = async (req, res) => {
 
 exports.getTimestamp = async (req, res) => {
   const {channelId, token} = req.body
-  const slack = new WebClient('xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f')
+  const slack = new WebClient('xoxb-5836473505844-5819589606151-lokrzjUvACu76MBlyKSgOsbq')
 
   try {
     const response = await slack.conversations.history({
@@ -78,7 +78,7 @@ exports.getTimestamp = async (req, res) => {
 
 exports.createThread = async (req, res) => {
   const {channelId, messageTimestamp, threadText, token} = req.body
-  const slack = new WebClient('xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f')
+  const slack = new WebClient('xoxb-5836473505844-5819589606151-lokrzjUvACu76MBlyKSgOsbq')
 
   try {
     const response = await slack.chat.postMessage({
@@ -105,7 +105,7 @@ exports.createThread = async (req, res) => {
 
 exports.addMemberToChannel = async (req, res) => {
   const { channelId, userId } = req.body;
-  const slack = new WebClient("xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f");
+  const slack = new WebClient("xoxp-5836473505844-5827388761782-5836736949077-cb7897b434de7c694f7aede05092bf36");
 
   try {
     const response = await slack.conversations.invite({
@@ -133,11 +133,11 @@ exports.addMemberToChannel = async (req, res) => {
 
 /////////////////////////userID
 exports.getUserId = async (req, res) => {
-  const slack = new WebClient("xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f");
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-lokrzjUvACu76MBlyKSgOsbq");
 
   try {
     const response = await slack.users.lookupByEmail({
-      email: "patoymano21@gmail.com", 
+      email: "andresjohnwine@gmail.com", 
     });
 
     if (response.ok) {
@@ -156,7 +156,7 @@ exports.getUserId = async (req, res) => {
 /////////////////////////lista de canales
 
 exports.listChannel = async (req, res) => {
-  const slack = new WebClient("xoxp-5834083025858-5857782466688-5851376329169-e5bca58bd92e89cb6e89bf315fc6149f");
+  const slack = new WebClient("xoxb-5836473505844-5819589606151-lokrzjUvACu76MBlyKSgOsbq");
   try {
     const response = await slack.conversations.list();
     if (response.ok) {
